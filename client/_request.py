@@ -2,21 +2,19 @@
 
 import json
 import urllib.request
-from physicsLab import errors
-from physicsLab._typing import Optional, Union
-
+from typing import Optional, Union
 
 def get_http(domain: str, path: str, port: Optional[int] = None) -> bytes:
     if not isinstance(domain, str):
-        errors.type_error(
+        TypeError(
             f"Parameter domain must be of type `str`, but got value {domain} of type `{type(domain).__name__}`"
         )
     if not isinstance(path, str):
-        errors.type_error(
+        TypeError(
             f"Parameter path must be of type `str`, but got value {path} of type `{type(path).__name__}`"
         )
     if not isinstance(port, (int, type(None))):
-        errors.type_error(
+        TypeError(
             f"Parameter port must be of type `Optional[int]`, but got value {port} of type `{type(port).__name__}`"
         )
 
@@ -33,19 +31,19 @@ def get_https(
     domain: str, path: str, port: Optional[int] = None, verify: bool = True
 ) -> bytes:
     if not isinstance(domain, str):
-        errors.type_error(
+        TypeError(
             f"Parameter domain must be of type `str`, but got value {domain} of type `{type(domain).__name__}`"
         )
     if not isinstance(path, str):
-        errors.type_error(
+        TypeError(
             f"Parameter path must be of type `str`, but got value {path} of type `{type(path).__name__}`"
         )
     if not isinstance(port, (int, type(None))):
-        errors.type_error(
+        TypeError(
             f"Parameter port must be of type `Optional[int]`, but got value {port} of type `{type(port).__name__}`"
         )
     if not isinstance(verify, bool):
-        errors.type_error(
+        TypeError(
             f"Parameter verify must be of type `bool`, but got value {verify} of type `{type(verify).__name__}`"
         )
 
@@ -67,23 +65,23 @@ def post_http(
     domain: str, path: str, header: dict, body: bytes, port: Optional[int] = None
 ) -> dict:
     if not isinstance(domain, str):
-        errors.type_error(
+        TypeError(
             f"Parameter domain must be of type `str`, but got value {domain} of type `{type(domain).__name__}`"
         )
     if not isinstance(path, str):
-        errors.type_error(
+        TypeError(
             f"Parameter path must be of type `str`, but got value {path} of type `{type(path).__name__}`"
         )
     if not isinstance(header, dict):
-        errors.type_error(
+        TypeError(
             f"Parameter header must be of type `dict`, but got value {header} of type `{type(header).__name__}`"
         )
     if not isinstance(body, (bytes, dict)):
-        errors.type_error(
+        TypeError(
             f"Parameter body must be of type `bytes` or `dict`, but got value {body} of type `{type(body).__name__}`"
         )
     if not isinstance(port, (int, type(None))):
-        errors.type_error(
+        TypeError(
             f"Parameter port must be of type `Optional[int]`, but got value {port} of type `{type(port).__name__}`"
         )
 
@@ -118,23 +116,23 @@ def post_https(
     verify: bool = True,
 ) -> dict:
     if not isinstance(domain, str):
-        errors.type_error(
+        TypeError(
             f"Parameter domain must be of type `str`, but got value {domain} of type `{type(domain).__name__}`"
         )
     if not isinstance(path, str):
-        errors.type_error(
+        TypeError(
             f"Parameter path must be of type `str`, but got value {path} of type `{type(path).__name__}`"
         )
     if not isinstance(header, dict):
-        errors.type_error(
+        TypeError(
             f"Parameter header must be of type `dict`, but got value {header} of type `{type(header).__name__}`"
         )
     if not isinstance(body, (bytes, dict)):
-        errors.type_error(
+        TypeError(
             f"Parameter body must be of type `bytes` or `dict`, but got value {body} of type `{type(body).__name__}`"
         )
     if not isinstance(port, (int, type(None))):
-        errors.type_error(
+        TypeError(
             f"Parameter port must be of type `Optional[int]`, but got value {port} of type `{type(port).__name__}`"
         )
 
