@@ -22,7 +22,7 @@ def handle_client(connection, client_address):
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket: # TCP
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_address = ('localhost', 6789)
+    server_address = ('localhost', 6699)
     server_socket.bind(server_address)
     server_socket.listen(5)
     print(f"Server listening on {server_address[0]}:{server_address[1]}")
