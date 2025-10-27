@@ -12,7 +12,8 @@ def tcp_request():
         # 2. TCP 三次握手、建立连接
         sock.connect((host, port))
         # 4. 接收应答
-        sock.recv(1024)   # 一次最多读 1 KB
+        result = sock.recv(1024)   # 一次最多读 1 KB
+        # print(result.decode())
     finally:
         # 5. 关闭连接（四次挥手）
         sock.close()

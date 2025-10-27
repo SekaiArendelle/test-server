@@ -1,4 +1,10 @@
+#include <atomic>
+#include <cstddef>
 #include <cstdint>
+#include <string>
+#include <thread>
+#include <mutex>
+#include <queue>
 #include <unistd.h>
 #include <arpa/inet.h>
 
@@ -56,9 +62,52 @@ public:
 
 } // namespace test_server
 
+namespace test_server {
+
+template <typename T>
+class ThreadSafeQueue {
+public:
+    ::std::queue<T> queue{};
+    ::std::mutex mutex{};
+    ::std::condition_variable has_new_element{};
+
+    void push(this auto&& self, auto&& value) {
+        ::std::lock_guard lock{self.mutex};
+        self.queue.push(::std::forward<decltype(value)>(value));
+        self.has_new_element.notify_one();
+    }
+
+    T pop(this auto&& self) {
+        ::std::unique_lock<::std::mutex> lock{self.mutex};
+        self.has_new_element.wait(lock, [&self] () {
+            return !self.queue.empty();
+        });
+        T result = self.queue.front();
+        self.queue.pop();
+        return result;
+    }
+
+    ::std::size_t size(this auto const& self) {
+        ::std::lock_guard lock{self.mutex};
+        return self.queue.size();
+    }
+};
+
+}
+
 int main() {
     ::test_server::Server server{};
-    int new_socket = server.accept();
-    ::send(new_socket, "Hello, World!", 13, 0);
-    ::close(new_socket);
+    ::std::queue<int> accepted_sockets{};
+    ::std::mutex acceptor_sender_mutex{};
+    ::std::jthread acceptor([&server, &accepted_sockets]() {
+        while (true) {
+            int new_socket = server.accept();
+            accepted_sockets.push(new_socket);
+        }
+    });
+    while (true) {
+        int new_socket = server.accept();
+        // ::send(new_socket, count.c_str(), count.size(), 0);
+        ::close(new_socket);
+    }
 }
